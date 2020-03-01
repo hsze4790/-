@@ -1,0 +1,65 @@
+#include "pch.h"
+#include <iostream>
+#define maxsize 100
+#include<cstring>
+using namespace std;
+typedef struct {
+	int top;
+	int stack[maxsize];
+} MinStack;
+
+/** initialize your data structure here. */
+
+MinStack* minStackCreate() {
+	MinStack *stackl = (MinStack*)malloc(sizeof(MinStack));
+	stackl->top = -1;
+	return stackl;
+}
+
+void minStackPush(MinStack* obj, int x) {
+	++(obj->top);
+	obj->stack[obj->top] = x;
+}
+
+void minStackPop(MinStack* obj) {
+	obj->top = obj->top - 1;
+}
+
+int minStackTop(MinStack* obj) {
+	return obj->stack[(obj->top)--];
+}
+
+int minStackGetMin(MinStack* obj) {
+	int n = obj->top;
+	int i, j, b;
+	for (i = 0; i <= n; i++) {
+		for (j = i + 1; j <= n; j++) {
+			if (obj->stack[i] > obj->stack[j]) {
+				b = obj->stack[i];
+				obj->stack[i] = obj->stack[j];
+				obj->stack[j] = b;
+			}
+		}
+	}
+	return obj->stack[0];
+}
+
+void minStackFree(MinStack* obj) {
+	obj->top = -1;
+}
+
+int main()
+{
+	MinStack *s = minStackCreate();
+	minStackPush(s, 3);
+	minStackPush(s, 3);
+	minStackPush(s, 3);
+	minStackPush(s, 3);
+	minStackPush(s, 3);
+	minStackPush(s, 3);
+	minStackPush(s, 1);
+	int b = minStackTop(s);
+	int a = minStackGetMin(s);
+	std::cout << "a  " << b<<std::endl;
+    
+}
