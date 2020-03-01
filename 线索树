@@ -1,0 +1,116 @@
+#include "pch.h"
+#include <iostream>
+#include<stdlib.h>
+#pragma warning(disable : 4996)
+using namespace std;
+typedef struct node {
+	char data;
+	struct node *lchild;
+	int ltag, rtag;
+	struct node *rchild;
+}Bitnode;
+Bitnode *pre =NULL;
+void create(Bitnode *&T){
+	char c;
+	scanf("%c", &c);
+	if ('#' == c) {
+		T = NULL;
+	}
+	else
+	{
+		T = (Bitnode*)malloc(sizeof(Bitnode));
+		cout << T << endl;
+		T->data = c;
+		cout << T->data << endl;
+		T->ltag = 0;
+		T->rtag = 0;
+		create(T->lchild);
+		create(T->rchild);
+	}
+}
+//中序遍历线索化
+void zxbl(Bitnode *T) {
+	if(T){
+		zxbl(T->lchild);
+		cout << T->data << endl;
+		if (T->lchild==NULL) {
+			T->ltag = 1;
+			T->lchild = pre;
+		}
+		if (pre->rchild == NULL) {
+			pre->rtag = 1;
+			pre->rchild = T;
+		}
+		pre = T;
+		zxbl(T->rchild);
+	}
+}
+void order(Bitnode *&T,Bitnode *&p) {
+	T = (Bitnode *)malloc(sizeof(Bitnode));
+	T->ltag = 0;
+	T->rtag = 1;
+	T->rchild = T;
+	if (!p) {
+		T->lchild = T;
+	}
+	else {
+		T->lchild = p;
+		pre = T;
+		zxbl(p);
+		pre->rchild = T;
+		pre->rtag = 1;
+		T->rchild = pre;
+	}
+}//添头
+//中序遍历 迭代
+void zxblfdg(Bitnode *T) {
+	Bitnode *p;
+	p = T->lchild;
+	while (p!=T)
+	{
+		while (p->ltag == 0) {
+			p = p->lchild;
+		}
+		cout << p->data << endl;
+		while (p->rtag==1&&p->rchild!=	T) {
+			p = p->rchild;
+			cout << p->data << endl;
+		}
+		p = p->rchild;
+	}
+}
+
+/*void create(Bitnode *&T) {//指针引用
+	char c;
+		scanf("%c", &c);
+	if ('#' == c) {
+		T=NULL;
+	}
+	else
+	{
+		T = (Bitnode*)malloc(sizeof(Bitnode));
+		cout << T << endl;
+		T->data = c;
+		cout << T->data << endl;
+		create(T->lchild);
+		create(T->rchild);
+	}
+	
+}
+void visit(char data,int level) {
+	printf("数据%c，第%d层\n", data,level);
+}
+void qxbl(Bitnode *T,int level) {
+	if (T)
+	{
+		visit(T->data,level);
+		qxbl(T->lchild,level+1);
+		qxbl(T->rchild, level + 1);
+	}
+}*/
+int main()
+{
+	Bitnode *H,*P;
+	create(H);
+	order(P, H);
+}
