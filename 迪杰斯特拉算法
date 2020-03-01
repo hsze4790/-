@@ -1,0 +1,113 @@
+#include "pch.h"
+#include <iostream>
+using namespace std;
+const int maxsize = 4;
+char point[maxsize] = {'a','b','c','d'};
+int LinkChart[4][4];
+int p[4][4];
+int min;
+int path=2;
+int dist[5] = {200,200,200,200,200};
+int min_pa[5] = {0};
+int mark = 0;//关于路径的标记
+int sign = 0;//关于判断递归结束的标记
+int add1=0;//关于
+int add2=0;//关于
+void DJ(int num) {
+	    min = 200;
+		for (int j = 0; j < 4; j++) {
+			if (0<LinkChart[num][j]&& LinkChart[num][j] <100) {
+				if (min > LinkChart[num][j]) {
+					min = LinkChart[num][j];
+					path = j;
+				}
+			}
+		}
+		for (int j = 0; j < 4; j++) {
+			if (path == dist[j]) {
+				++sign;
+			}
+		}
+	
+	for (int i = 0; i < 4; i++)
+	{
+		
+		if (LinkChart[num][i]==100) {
+			++add1;
+		}
+		else if(LinkChart[num][i]==0)
+		{
+			++add2;
+		}
+	}
+	if(add1+add2==4||sign==1){
+		sign = 0;
+
+	}
+	else {
+		add1 = 0;
+		add2 = 0;
+		sign = 0;
+		min = 200;
+	for (int i = 0; i < 4; i++) {
+		if (i == num) {
+
+		}
+		else if (LinkChart[num][i] < min) {
+			min = LinkChart[num][i];
+			path = i;
+			
+		}
+	}
+	dist[++mark] = path;
+	min_pa[mark] = min_pa[mark-1] + min;
+	DJ(path);
+	}
+}
+int InitPic() {
+	for (int i = 0; i < maxsize; i++)
+	{
+		for (int j = 0; j < maxsize; j++) {
+			if (i == j) {
+				LinkChart[i][j] = 0;
+			}
+			
+			p[i][j] = -1;
+		}
+		LinkChart[0][1] = 5;
+		LinkChart[0][2] = 100;
+		LinkChart[0][3] = 7;
+
+		LinkChart[1][0] = 100;
+		LinkChart[1][2] = 4;
+		LinkChart[1][3] = 2;
+
+		LinkChart[2][0] = 3;
+		LinkChart[2][1] = 3;
+		LinkChart[2][3] = 2;
+
+		LinkChart[3][0] = 100;
+		LinkChart[3][1] = 100;
+		LinkChart[3][2] = 1;
+	}
+	return 1;
+}
+
+
+
+int main()
+{
+	int start;
+	cin >> start;
+	InitPic();
+	DJ(start);
+	dist[0] = start;
+	for (int i = 0; i < 4; i++)
+	{
+		cout << point[dist[i]];
+	}
+
+
+	
+  
+}
