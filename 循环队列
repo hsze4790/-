@@ -1,0 +1,101 @@
+int maxsize;
+typedef struct {
+	
+	int *data =NULL;
+	int rear ;
+	int front ;
+} MyCircularQueue;
+
+/** Initialize your data structure here. Set the size of the queue to be k. */
+
+MyCircularQueue* myCircularQueueCreate(int k) {
+	maxsize = k;		
+
+	MyCircularQueue *p = (MyCircularQueue *)malloc(sizeof(MyCircularQueue));
+	p->front = 0;
+	p->rear = 0;
+	p->data = (int *)malloc(maxsize * sizeof(int));
+	return p;
+}
+
+/** Insert an element into the circular queue. Return true if the operation is successful. */
+bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
+	int re = obj->rear;
+	if (obj->front == (re + 1) % maxsize) {
+		return false;
+	}
+	else {
+		 re = (re + 1) % maxsize;
+		 std::cout << re;
+		obj->data[re] = value;
+		return true;
+	}
+}
+
+/** Delete an element from the circular queue. Return true if the operation is successful. */
+bool myCircularQueueDeQueue(MyCircularQueue* obj) {
+	int fr = obj->front;
+	if (obj->rear == fr) {
+		return false;
+	}
+	else {
+		fr = (fr + 1) % maxsize;
+		return true;
+	}
+}
+
+/** Get the front item from the queue. */
+int myCircularQueueFront(MyCircularQueue* obj) {
+	int fr = obj->front;
+	if (obj->rear == fr) {
+		return -1;
+	}
+	else {
+		return obj->data[fr];
+	}
+}
+
+/** Get the last item from the queue. */
+int myCircularQueueRear(MyCircularQueue* obj) {
+	int fr = obj->front;
+	int re = obj->rear;
+	if (re == fr) {
+		return -1;
+	}
+	else {
+		return obj->data[re];
+	}
+}
+
+/** Checks whether the circular queue is empty or not. */
+bool myCircularQueueIsEmpty(MyCircularQueue* obj) {
+	int fr = obj->front;
+	int re = obj->rear;
+	if (re == fr) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+/** Checks whether the circular queue is full or not. */
+bool myCircularQueueIsFull(MyCircularQueue* obj) {
+	int re = obj->rear;
+	if (obj->front == (re + 1) % maxsize) {
+		return false;
+	}
+	else {
+		return  true;
+	}
+}
+
+void myCircularQueueFree(MyCircularQueue* obj) {
+	obj->rear = 0;
+	obj->front = 0;
+}
+int main()
+{
+	MyCircularQueue *q = myCircularQueueCreate(3);
+
+}
