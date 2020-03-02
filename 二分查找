@@ -1,0 +1,39 @@
+#include "pch.h"
+#include <iostream>
+using namespace std;
+int find(int a[],int len,int key){
+	int high = len-1;
+	int low = 0;
+	int mid;
+	if (a[len - 1] < key||a[0]>key) {
+		return 0;
+	}
+	while (low<=high) {
+ 		mid = (low + high) / 2;
+		if (a[mid] == key) {
+			return key;
+		}
+		if (a[mid] > key) {
+			high = mid - 1;
+		}
+		else {
+			low = mid + 1;
+		}
+	}
+	return 0;
+}
+
+int main()
+{
+
+	int a[5];
+	for (int i = 0; i < 5; i++)
+	{
+		cin >> a[i];
+	}
+	int key;
+	cin >> key;
+	cout << find(a, 5, key) << endl;
+	
+  
+}
