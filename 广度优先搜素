@@ -1,0 +1,96 @@
+#include "pch.h"
+#include <iostream>
+using namespace std;
+typedef struct arc {
+	int vex;
+	struct  arc* next;
+}arc;
+typedef struct Head {
+	char data;
+	arc* p=NULL; 
+}head;
+head h[5];
+char str[5] = { 'A','B','C','D','E' };
+int visit[5] = { 0 };
+void charu(int sign, int num) {
+	arc *L;
+	head *k;
+	L = h[sign].p;
+	k = &h[sign];
+	if (L == NULL) {
+				arc *node = (arc *)malloc(sizeof(arc));
+				k->p = node;
+				node->vex = num;
+				node->next = NULL;
+				return;
+			}
+		while (true)
+		{
+			
+			 if (L->next==NULL)
+			{
+				 //cout << 1;
+				arc *node = (arc *)malloc(sizeof(arc));
+	            node->vex = num;
+				L->next = node;
+				node->next = NULL;
+				break;
+			}
+
+			L = L->next;
+		}
+}
+void Visit(int v) {
+	cout<<h[v].data<< endl;
+}
+void BFS(int v) {
+	arc *L;
+	int queue[5];
+	int j;
+	int front = 0;
+	int rear = 0;
+	Visit(v);
+	visit[v] = 1;
+	queue[rear] = v;
+	rear = (rear + 1)%5;
+	while (rear!=front)
+	{
+		j = queue[front];
+		front = (front + 1) % 5;
+		L = h[j].p;
+		while (L != NULL) {
+			if (visit[L->vex] == 0) {
+				visit[L->vex] = 1;
+				Visit(L->vex);
+				queue[rear] = L->vex;
+				rear = (rear + 1) % 5;
+			}
+			L = L->next;
+		}
+
+	}
+}
+int main()
+{
+	for (int i = 0; i < 5; i++) {
+		h[i].data = str[i];
+	}
+	//cout << h[1].data;
+	charu(0, 1);
+	charu(0, 2);
+	charu(0, 3);
+    charu(1, 0);
+	charu(2, 0);
+	charu(2, 3);
+	charu(3, 0);
+	charu(3, 2);
+	charu(3, 4);
+	charu(4, 3);
+	//DFS(4);
+	BFS(0);
+	for (int i = 0; i < 5; i++)
+	{
+		cout << visit[i];
+	}
+  
+}
