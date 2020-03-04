@@ -1,0 +1,85 @@
+#include "pch.h"
+#include <iostream>
+using namespace std;
+typedef struct arc {
+	int vex;
+	struct  arc* next;
+}arc; //链表节点
+typedef struct Head {
+	char data;
+	arc* p=NULL; 
+}head;//顶点集合
+head h[5];
+char str[5] = { 'A','B','C','D','E' };
+int visit[5] = { 0 };
+void charu(int sign, int num) {
+	arc *L;
+	head *k;
+	L = h[sign].p;
+	k = &h[sign];
+	if (L == NULL) {
+				arc *node = (arc *)malloc(sizeof(arc));
+				k->p = node;
+				node->vex = num;
+				node->next = NULL;
+				return;
+			}
+		while (true)
+		{
+			
+			 if (L->next==NULL)
+			{
+				 //cout << 1;
+				arc *node = (arc *)malloc(sizeof(arc));
+	            node->vex = num;
+				L->next = node;
+				node->next = NULL;
+				break;
+			}
+
+			L = L->next;
+		}
+}
+void Visit(int v) {
+	cout<<h[v].data<< endl;
+}
+void DFS(int v) {
+	arc *L;
+	visit[v] = 1;
+	Visit(v);
+	L = h[v].p;
+	while (L!=NULL)
+	{
+	if (visit[L->vex]==0) {
+		
+		DFS(L->vex);
+	}
+		
+		L=L->next;
+	}
+
+}
+
+int main()
+{
+	for (int i = 0; i < 5; i++) {
+		h[i].data = str[i];
+	}
+	//cout << h[1].data;
+	charu(0, 1);
+	charu(0, 2);
+	charu(0, 3);
+    charu(1, 0);
+	charu(2, 0);
+	charu(2, 3);
+	charu(3, 0);
+	charu(3, 2);
+	charu(3, 4);
+	charu(4, 3);
+	DFS(0);
+	for (int i = 0; i < 5; i++)
+	{
+		cout << visit[i];
+	}
+  
+}
