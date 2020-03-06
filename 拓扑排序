@@ -1,0 +1,104 @@
+#include "pch.h"
+#include <iostream>
+using namespace std;
+typedef struct arc {
+	int vex;
+	struct  arc* next;
+}arc; //链表节点
+typedef struct Head {
+	char data;
+	int count;
+	arc* p = NULL;
+}head;//顶点集合
+head h[6];
+int vest[6] = { 0 };//标记count为0的点
+char str[6] = {'a','b','c','d','e','f'};
+void charu(int sign, int num) {
+	arc *L;
+	head *k;
+	L = h[sign].p;
+	k = &h[sign];
+	if (L == NULL) {
+		arc *node = (arc *)malloc(sizeof(arc));
+		k->p = node;
+		node->vex = num;
+		node->next = NULL;
+		return;
+	}
+	while (true)
+	{
+		if (L->next == NULL)
+		{
+			//cout << 1;
+			arc *node = (arc *)malloc(sizeof(arc));
+			node->vex = num;
+			L->next = node;
+			node->next = NULL;
+			break;
+		}
+		L = L->next;
+	}
+}
+int tppx() {
+	int stack[6], top = -1,n=0;//定义一个栈保存入度为0的顶点
+	arc *p;
+	for (int i = 0; i < 6; i++)
+	{
+		if (h[i].count == 0) {
+			stack[++top] = i;
+			vest[i] = 1;
+		}
+	}
+	while (top > -1) {
+		int tmp = stack[top--];
+		++n;
+		cout << h[tmp].data;
+		p = h[tmp].p;
+		while (p!=NULL)
+		{
+			--h[p->vex].count;
+			p = p->next;
+		}
+		for (int i = 0; i < 6; i++)
+		{
+			if (h[i].count == 0&&vest[i]==0) {
+				stack[++top] = i;
+				vest[i] = 1;
+			}
+		}
+	}
+	if (n == 6) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+
+}
+int main()
+{
+	for (int i = 0; i < 6; i++) {
+		h[i].data = str[i];
+		
+	}
+	h[0].count = 0;
+	h[1].count = 2;
+	h[2].count = 1;
+	h[3].count = 2;
+	h[4].count = 3;
+	h[5].count = 0;
+	charu(0, 1);
+	charu(0, 2);
+	charu(0, 3);
+	charu(2, 1);
+	charu(2, 4);
+	charu(3, 4);
+	charu(5, 3);
+	charu(5, 4);
+	if (tppx()) {
+		cout << "\n"<<"排序成功" << endl;
+	}
+	else {
+		cout << "\n" << "排序失败" << endl;
+	}
+}
