@@ -9,7 +9,7 @@ void visit(int v) {
 }
 void brim(int v) {
 	for (int i = 0; i < 5; i++) {
-		lowcost[i] = graph[v][i];
+		lowcost[i] = graph[v][i];//初始化生成树到各个节点的值
 	}
 	visit(v);
 	vest[v] = 1;
@@ -23,14 +23,14 @@ void brim(int v) {
 		{
 			if (min > lowcost[B] && vest[B] == 0) {
 				min = lowcost[B];
-				path = B;
+				path = B;//找寻下个节点
 			}
 		}
 		vest[path] = 1;
 		visit(path);
 		for (int g = 0; g < 5; g++) {
 			if (vest[g] == 0 && graph[path][g] < lowcost[g]) {
-				lowcost[g] = graph[path][g];
+				lowcost[g] = graph[path][g];//修改lowcost数值
 			}
 		}
 		
