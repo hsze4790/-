@@ -1,0 +1,40 @@
+void fastsort(int a[],int low,int high) {
+	int i = low, j=high, tmp;
+	if (low < high) {//当地位指针低于高位指针进入循环
+		tmp = a[low];//将低位值保存到临时变量
+		while (i < j) {
+			while (j>i&&a[j]>=tmp)//不满足交换条件移动高位指针 一直移动到满足为止
+			{
+				--j;
+			}
+			if (i < j) {
+				a[i] = a[j];
+				i++;
+			}
+			while (j>i&&a[i]<=tmp)
+			{
+				++i;//移动低位指针
+			}
+			if (i < j) {
+				a[j] = a[i];
+				--j;
+			}
+			
+		}
+		a[i] = tmp;
+			fastsort(a, low, i - 1);//递归调用
+			fastsort(a, i+1, high);//递归调用
+	}
+
+}
+int main()
+{
+	int a[5] = {9,8,6,7,43};
+	fastsort(a, 0, 4);
+	
+	
+	for (int i = 0;  i < 5; i++)
+	{
+		cout << a[i] << endl;;
+	}
+}
