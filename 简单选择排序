@@ -1,0 +1,29 @@
+void ChooceSort(int a[],int n) {
+	
+	int i, j, k, tmp;
+	for ( i = 0; i < n; i++) {
+		k = i;
+		for ( j = i + 1; j < n; j++) {
+			if (a[k] > a[j]) {
+				k = j;
+			}
+			tmp = a[i];
+			a[i] = a[k];
+			a[k] = tmp;
+		}
+	}
+	
+}
+int main()
+{
+	int a[5] = {9,8,6,43,7};
+	ChooceSort(a,5);
+		for (int i = 0;  i < 5; i++)
+	{
+		cout << a[i]<<" " ;
+	}
+	
+	
+	
+	
+}
