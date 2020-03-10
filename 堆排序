@@ -1,0 +1,50 @@
+void swap(int arr[],int i,int j) {
+	int tmp;
+	tmp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = tmp;
+}//交换函数
+void heapify(int tree[],int n,int i) {
+	if (i >= n) {
+		return;
+	}
+	int c1 = 2 * i + 1;
+	int c2 = 2 * i + 2;
+	int max = i;
+	if (c1<n&&tree[c1]> tree[max]) {
+		max = c1;
+	}
+	if (c2<n&&tree[c2] > tree[max]) {
+		max = c2;
+	}//找最大的节点
+	if (max != i) {
+		swap(tree, max, i);//交换
+		heapify(tree, n, max);
+	}
+}//堆化
+void build_heap(int a[], int n) {
+	int last_node = n - 1;//最后一个元素
+	int p = (last_node - 1) / 2;//找到双亲
+	int i;
+	for (i = p; i >= 0; i--) {
+		heapify(a, n, i);//从下到上依次建立
+	}
+}//建立一个堆
+void heap_sort(int tree[],int n) {
+	build_heap(tree, n);//建立堆
+	int i;
+	for (i = n - 1; i >= 0; i--) {
+		swap(tree, i, 0);//根节点与最后一个节点交换
+		heapify(tree, i, 0);//堆的个数减一  从根开始重新堆化
+	}
+}
+int main()
+{
+	int a[6] = {20,32,4,43,5,2};
+	heap_sort(a, 6);
+		for (int i = 0;  i < 6; i++)
+	{
+		cout << a[i]<<" " ;
+	}
+
+}
