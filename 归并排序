@@ -1,0 +1,75 @@
+void merge(int arr[], int L, int M, int R) {
+	 int left_size =M-L ;
+	int right_size =R-M+1 ;
+	int *left = (int *)malloc(sizeof(int)*(left_size+1));
+	int *right = (int *)malloc(sizeof(int)*(right_size+1));
+	int i,j,k;
+	for ( i = L; i < M; i++)
+	{
+		left[i-L] = arr[i];
+	
+	}
+
+	for (i = M; i <= R; i++)
+	{
+		right[i-M] = arr[i];
+	;
+	}
+
+	i = 0;
+	j = 0;
+	k = L;
+	
+		while (i<left_size&&j<right_size) {
+		if (left[i] < right[j]) {
+			arr[k] = left[i];
+			
+			++i;
+			++k;
+		}
+		if (left[i] >= right[j]) {
+			arr[k] = right[j];
+		
+			++j;
+			++k;
+		}
+		//cout << 1;
+	}
+	while (i<left_size)
+	{
+		arr[k] = left[i];
+		i++;
+		k++;
+	}
+	while (j < right_size) {
+		arr[k] = right[j];
+		j++;
+		k++;
+	}
+	
+
+}
+void mergeSort(int arr[], int L, int R) {
+	if (L < R) {
+
+		int M = (L + R) / 2;
+		mergeSort(arr, L, M); //分治
+
+		mergeSort(arr, M+1, R);//分治
+	
+		merge(arr, L, M + 1, R);
+
+	}
+	
+}
+
+int main()
+{
+	int a[8] = { 43,12,22,1,432,12,3,4 };
+	mergeSort(a, 0, 7);
+	for (int i = 0; i < 8; i++)
+	{
+		cout << a[i] << " ";
+	}
+
+}
